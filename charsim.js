@@ -55,13 +55,16 @@ Charsim.View = function(origin, options)
 		alert('The character simulator has been improperly initiated on a container without an ID.');
 		return;
 	}
-	this.origin.addClass('charsim');
 
 	// if this is the first character simulator, include CSS file
 	if ($('.charsim').length == 0)
 	{
 		this.origin.before('<link rel="stylesheet" type="text/css" href="charsim.css" />');
 	}
+
+	// for styles..
+	this.origin.wrap('<div class="charsim-wrapper" />');
+	this.origin.addClass('charsim');
 
 	for (i in this.character.stats)
 	{
