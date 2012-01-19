@@ -1,0 +1,8 @@
+/**
+ * Ragnarok Online Character Simulator Stylesheet
+ * @author Guillaume VanderEst <gui@exodus.io>
+ * @package charsim
+ */
+
+.charsim { border: 1px solid red; min-width: 400px; min-height: 400px; display: inline-block; }
+.charsim-byline, .charsim-byline a { color: #ccc; font-size: 13px; }
