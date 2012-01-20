@@ -122,14 +122,21 @@ Charsim.View = function(origin, options)
 	}
 	this._ = function(field) { return this.get_string(field); } // alias for get_string
 
-	// refresh the list of stats
 	this.refresh_stats = function()
 	{
 		for (i in this.character.stats)
 		{
-			stat = this.character.stats[i];
-			console.log(stat);
+			this.refresh_stat(i);
 		}
+	}
+
+	this.refresh_stat = function(id)
+	{
+		console.log(id);
+		stat = this.character.stats[id];
+		this.find('.charsim-stat-' + id + ' .charsim-stat-base input').val(stat.get_base());
+		this.find('.charsim-stat-' + id + ' .charsim-stat-bonus').html(stat.get_bonus());
+		this.find('.charsim-stat-' + id + ' .charsim-stat-total').html(stat.get_total());
 	}
 
 	// if there is no ID on this 
@@ -165,23 +172,7 @@ Charsim.View = function(origin, options)
 
 	this.origin.append('<div class="charsim-byline">' + this._('byline') + '</div> <!-- .charsim-byline -->');
 
-	this.refresh_stats = function()
-	{
-		for (i in this.character.stats)
-		{
-			this.refresh_stat(i);
-		}
-	}
-
-	this.refresh_stat = function(id)
-	{
-		console.log(id);
-		stat = this.character.stats[id];
-		this.find('.charsim-stat-' + id + ' .charsim-stat-base input').val(stat.get_base());
-		this.find('.charsim-stat-' + id + ' .charsim-stat-bonus').html(stat.get_bonus());
-		this.find('.charsim-stat-' + id + ' .charsim-stat-total').html(stat.get_total());
-	}
-
+	// redraw everything to instantiate it to something
 	this.refresh_stats();
 }
 
