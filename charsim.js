@@ -20,18 +20,29 @@ Charsim = {
 
 	// Library Functions
 	stub : function(message){ if (console.log) { console.log('STUB: ' + message); } return undefined; },
+	get_element_multiplier : function(level, from_id, to_id) { return Charsim.Elements[level][from_id][to_id]; }
 };
 
-Charsim.Class = function(id, data)
+Charsim.Item = function(data)
 {
-	this.id = id;
+	this.id = data.id;
+	this.name = data.name;
+	this.get_bonuses = function(){ }
+}
+
+Charsim.Class = function(data)
+{
+	this.id = data.id;
 	this.name = data.name;
 	this.skills = data.skills;
 }
 
-Charsim.Damage = function()
+Charsim.Damage = function(data)
 {
-	this.element = Charsim.DEFAULT_DAMAGE_ELEMENT;
+	this.type = data.type;
+	this.element = data.element ? data.element : Charsim.DEFAULT_DAMAGE_ELEMENT;
+	this.minimum = 0;
+	this.maximum = 0;
 }
 
 Charsim.Elements = {
@@ -105,13 +116,13 @@ Charsim.Skill = function(id, data)
 
 	/** 
 	 * Get the effect (heal, damage) on a target
-	 * @param Charsim.Character from
-	 * @param Charsim.Character to (typically a monster, but can be another player)
+	 * @param Charsim.Character caster typically the user's character
+	 * @param Charsim.Character target (typically a monster, but can be another player)
 	 * @return Charsim.Damage object
 	 */
-	this.get_effect = function(from, to)
+	this.get_effect = function(caster, target)
 	{
-
+		return [];
 	}
 }
 
@@ -130,6 +141,13 @@ Charsim.Language = {
 		'neutral' : 'Neutral',
 		'water' : 'Water',
 		'fire' : 'Fire',
+		'wind' : 'Wind',
+		'ghost' : 'Ghost',
+		'earth' : 'Earth',
+		'undead' : 'Undead',
+		'holy' : 'Holy',
+		'poison' : 'Poison',
+		'shadow' : 'Shadow',
 		'byline' : 'Charsim (' + Charsim.VERSION + ') created by <a href="mailto:gui@exodus.io">Guillaume VanderEst</a> of <a href="http://exodus.io/" target="_blank">Exodus Labs</a>'
 	}
 };
@@ -237,7 +255,6 @@ Charsim.View = function(origin, options)
 
 	this.refresh_stat = function(id)
 	{
-		console.log(id);
 		stat = this.character.stats[id];
 		this.find('.charsim-stat-' + id + ' .charsim-stat-base input').val(stat.get_base());
 		this.find('.charsim-stat-' + id + ' .charsim-stat-bonus').html(stat.get_bonus());
@@ -287,5 +304,3 @@ $.fn.charsim = function(options)
 	charsim = new Charsim.View($(this), options);
 	$(this).data('charsim', charsim);
 };
-
-console.log(Charsim.Elements[1]['water']['fire']);
