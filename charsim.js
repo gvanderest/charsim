@@ -16,9 +16,49 @@ Charsim = {
 	STAT_MAX : 150,
 	DEFAULT_LANGUAGE : 'en',
 
+	DEFAULT_DAMAGE_ELEMENT : 'neutral',
+
 	// Library Functions
 	stub : function(message){ if (console.log) { console.log('STUB: ' + message); } return undefined; },
 };
+
+Charsim.Class = function(id, data)
+{
+	this.id = id;
+	this.name = data.name;
+	this.skills = data.skills;
+}
+
+Charsim.Damage = function()
+{
+	this.element = Charsim.DEFAULT_DAMAGE_ELEMENT;
+}
+
+Charsim.Elements = {
+	1 : {
+		'neutral'	: { 'neutral' : 1.00, 'water' : 1.00, 'earth' : 1.00, 'fire' : 1.00, 'wind' : 1.00, 'poison' : 1.00, 'holy' : 1.00, 'shadow' : 1.00, 'ghost' : 0.70, 'undead': 1.00 },
+		'water'		: { 'neutral' : 1.00, 'water' : 0.25, 'earth' : 1.00, 'fire' : 1.50, 'wind' : 0.90, 'poison' : 1.00, 'holy' : 0.75, 'shadow' : 1.00, 'ghost' : 1.00, 'undead': 1.00 },
+		'neutral'	: { 'neutral' : 1.00, 'water' : 1.00, 'earth' : 1.00, 'fire' : 1.00, 'wind' : 1.00, 'poison' : 1.00, 'holy' : 1.00, 'shadow' : 1.00, 'ghost' : 1.00, 'undead': 1.00 },
+	}
+		//'neutral'	: { 'neutral' : 1.00, 'water' : 1.00, 'earth' : 1.00, 'fire' : 1.00, 'wind' : 1.00, 'poison' : 1.00, 'holy' : 1.00, 'shadow' : 1.00, 'ghost' : 1.00, 'undead': 1.00 },
+};
+
+Charsim.Skill = function(id, data)
+{
+	this.id = id;
+	this.name = data.name;
+
+	/** 
+	 * Get the effect (heal, damage) on a target
+	 * @param Charsim.Character from
+	 * @param Charsim.Character to (typically a monster, but can be another player)
+	 * @return Charsim.Damage object
+	 */
+	this.get_effect = function(from, to)
+	{
+
+	}
+}
 
 /**
  * An array of language data, will autoload additional strings on-the-fly eventually-- used for all text strings for display
@@ -32,9 +72,19 @@ Charsim.Language = {
 		'int' : 'INT',
 		'dex' : 'DEX',
 		'luk' : 'LUK',
+		'neutral' : 'Neutral',
+		'water' : 'Water',
+		'fire' : 'Fire',
 		'byline' : 'Charsim (' + Charsim.VERSION + ') created by <a href="mailto:gui@exodus.io">Guillaume VanderEst</a> of <a href="http://exodus.io/" target="_blank">Exodus Labs</a>'
 	}
-}
+};
+
+/**
+ * An array of class data, to be loaded on the fly
+ * TODO: on-the-flyness
+ */
+Charsim.Classes = {
+};
 
 Charsim.Character = function(options)
 {
@@ -182,3 +232,5 @@ $.fn.charsim = function(options)
 	charsim = new Charsim.View($(this), options);
 	$(this).data('charsim', charsim);
 };
+
+console.log(Charsim.Elements[1]['water']['fire']);
